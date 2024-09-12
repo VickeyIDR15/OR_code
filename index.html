@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"] {
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+        input[type="submit"] {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .qr-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .popup-content h3 {
+            margin: 0 0 10px 0;
+        }
+        .popup-content button {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .popup-content button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <form id="userForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <input type="submit" value="Generate QR Code">
+        </form>
+
+        <div class="qr-container" id="qrCode"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+    <script>
+        const form = document.getElementById('userForm');
+        const qrCodeContainer = document.getElementById('qrCode');
+
+        // Handle form submission
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent page reload
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            // URL to encode form data and open details page
+            const encodedURL = `${window.location.origin}/details.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
+
+            // Generate QR code with URL
+            const qr = new QRious({
+                element: document.createElement('canvas'),
+                value: encodedURL,
+                size: 200
+            });
+
+            // Display QR code
+            qrCodeContainer.innerHTML = '';
+            qrCodeContainer.appendChild(qr.element);
+        });
+    </script>
+
+</body>
+</html>
